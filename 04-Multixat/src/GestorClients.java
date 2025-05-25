@@ -19,7 +19,9 @@ public class GestorClients implements Runnable {
         this.servidor = servidor;
         this.out = new ObjectOutputStream(client.getOutputStream());
         this.in = new ObjectInputStream(client.getInputStream());
-    }    @Override
+    }    
+    
+    @Override
     public void run() {
         try {
             // Bucle principal. Recibe mensajes mientras el cliente este conectado
@@ -36,7 +38,9 @@ public class GestorClients implements Runnable {
                 e.printStackTrace(); 
             }
         }
-    }    private void processaMissatge(String missatge) {
+    }   
+    
+    private void processaMissatge(String missatge) {
         // Extrae el codigo de operación del mensaje
         String codi = Missatge.getCodiMissatge(missatge);
         if (codi == null) return;
@@ -57,7 +61,8 @@ public class GestorClients implements Runnable {
             case Missatge.CODI_SORTIR_TOTS:
                 sortir = true;
                 servidor.finalitzarXat();
-                break;            case Missatge.CODI_MSG_PERSONAL:
+                break;            
+            case Missatge.CODI_MSG_PERSONAL:
                 if (parts.length >= 3) {
                     // Envia un mensaje a un destinatario específico
                     String destinatari = parts[1];
@@ -75,10 +80,11 @@ public class GestorClients implements Runnable {
                 System.out.println("Codi desconegut: " + codi);
         }
     }
+    
     public void enviarMissatge(String remitent, String missatge) {
         try {
             // Envia el mensaje a través del stream de salida
-            out.writeObject(missatge);
+            out.writeObject(missatge/* Missatge.getMissatgePersonal(remitent, missatge) */);
             out.flush();
         } catch (IOException e) {
             e.printStackTrace();

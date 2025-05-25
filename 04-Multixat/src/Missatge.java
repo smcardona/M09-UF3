@@ -29,7 +29,7 @@ public class Missatge {
     public static String getMissatgeConectar(String nom) {
         return CODI_CONECTAR + "#" + nom;
     }
-      public static String getCodiMissatge(String missatgeRaw) {
+    public static String getCodiMissatge(String missatgeRaw) {
         // Extrae el codigo de operación del mensaje completo
         String msg = missatgeRaw.trim();
         if (msg.isEmpty() || msg.indexOf("#") == -1) {

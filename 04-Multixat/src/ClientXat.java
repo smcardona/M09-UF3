@@ -18,7 +18,9 @@ public class ClientXat {
         // Inicia un hilo para recibir mensajes del servidor
         new Thread(client::executa).start();
         client.processaEntrada();
-    }    private void connecta() {
+    }    
+    
+    private void connecta() {
         try {
             // Establece conexión con el servidor y crea los streams
             socket = new Socket(ServidorXat.HOST, ServidorXat.PORT);
@@ -29,7 +31,9 @@ public class ClientXat {
         } catch (IOException e) {
             System.err.println("Error connectant: " + e.getMessage());
         }
-    }    private void executa() {
+    }    
+    
+    private void executa() {
         try {
             System.out.println("DEBUG: Iniciant rebuda de missatges...");
             while (!sortir) {
@@ -38,15 +42,14 @@ public class ClientXat {
                 String[] parts = Missatge.getPartsMissatge(missatge);
                 
                 if (parts == null) continue;
-                
+
                 // Procesa según el tipo de mensaje
                 switch (parts[0]) {
                     case Missatge.CODI_SORTIR_TOTS:
                         sortir = true;
                         break;
                     case Missatge.CODI_MSG_PERSONAL:
-                        String[] dades = parts[1].split("#", 2);
-                        System.out.println("Missatge de (" + dades[0] + "): " + dades[1]);
+                        System.out.println("Missatge de (" + parts[1] + "): " + parts[2]);
                         break;
                     case Missatge.CODI_MSG_GRUP:
                         System.out.println("Missatge grup: " + parts[1]);
@@ -60,7 +63,9 @@ public class ClientXat {
         } finally {
             tancarClient();
         }
-    }    private void processaEntrada() {
+    }   
+    
+    private void processaEntrada() {
         Scanner scanner = new Scanner(System.in);
         while (!sortir) {
             this.ajuda();
@@ -115,7 +120,9 @@ public class ClientXat {
             }
         }
         scanner.close();
-    }    private void enviarMissatge(String missatge) {
+    }    
+    
+    private void enviarMissatge(String missatge) {
         try {
             // Envia el mensaje codificado al servidor
             out.writeObject(missatge);
@@ -135,7 +142,9 @@ public class ClientXat {
             4.- (o linia en blanc)-> Sortir del client
             5.- Finalitzar tothom
             ---------------------""");
-    }    private String getLinea(Scanner scanner, String missatge, boolean obligatori) {
+    }    
+    
+    private String getLinea(Scanner scanner, String missatge, boolean obligatori) {
         String linia;
         // Solicita entrada al usuario hasta que sea válida (si es obligatoria)
         do {
@@ -143,7 +152,9 @@ public class ClientXat {
             linia = scanner.nextLine().trim();
         } while (obligatori && linia.isEmpty());
         return linia;
-    }    private void tancarClient() {
+    }
+
+    private void tancarClient() {
         try {
             System.out.println("Tancant client...");
             if (in != null) {

@@ -52,7 +52,9 @@ public class ServidorXat {
             clients.remove(nom);
             System.out.println(nom + " ha sortit del xat");
         }
-    }    public synchronized void enviarMissatgeGrup(String missatge) {
+    }   
+    
+    public synchronized void enviarMissatgeGrup(String missatge) {
         // Envía el mensaje a todos los clientes conectados
         clients.forEach((nom, client) -> client.enviarMissatge("Servidor", missatge));
     }
@@ -61,7 +63,8 @@ public class ServidorXat {
         // Envía un mensaje privado al destinatario si existe
         if (clients.containsKey(destinatari)) {
             System.out.println("Missatge personal per (" + destinatari + ") de (" + remitent + "): " + missatge);
-            clients.get(destinatari).enviarMissatge(remitent, missatge);
+            clients.get(destinatari).enviarMissatge(remitent, 
+                Missatge.getMissatgePersonal(remitent, missatge));
         }
     }    public void finalitzarXat() {
         // Finaliza el chat para todos los usuarios conectados
